@@ -1,26 +1,45 @@
 import React from 'react';
-import logo from './logo.svg';
+import {connect} from 'react-redux'
 import './App.css';
+import { Button } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+
+  constructor(){
+    super()
+    this.onDecrement = this.onDecrement.bind(this)
+    this.onIncrement = this.onIncrement.bind(this)
+  }
+   
+  onIncrement(){
+    this.props.dispatch({type:'increment',payload:this.props.count})
+  }
+
+  onDecrement(){
+    this.props.dispatch({type:'decrement',payload:this.props.count})
+   }
+  render(){
+    return(
+      <center>
+      <div className="styleIt">
+        <h3>COUNTER</h3>
+        <Button onClick={this.onIncrement}  size="sm" outline color="primary"  style={{margin:10}}> + </Button>
+
+        <span>{this.props.count}</span>
+
+        <Button onClick={this.onDecrement}  size="sm" outline color="primary" style={{margin:10}}> - </Button>
+      </div>
+      </center>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = state =>{
+  return{
+    count:state.count
+ }
+}
+
+
+export default connect (mapStateToProps)(App);
